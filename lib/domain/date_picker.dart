@@ -46,12 +46,11 @@ class CustomDatePicker extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 8), // Add spacing between text and icon
+            const SizedBox(width: 8),
             Icon(
-              Icons
-                  .access_time, // Changed to access_time to match time selection
+              Icons.access_time,
               color: theme.primaryColor,
-              size: deviceSize.width * 0.04, // Adjust icon size
+              size: deviceSize.width * 0.04,
             ),
           ],
         ),

@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_management/data/local/task_local_db.dart';
@@ -11,7 +12,30 @@ import 'package:task_management/features/home/bloc/home_bloc.dart';
 import 'package:task_management/features/home/presentation/home_page.dart';
 import 'package:task_management/features/setting/bloc/setting_bloc.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await AwesomeNotifications().initialize(
+    null,
+    [
+      NotificationChannel(
+          channelKey: 'task_channel',
+          channelName: 'Task notification',
+          channelDescription: "Test notification channel",
+          channelGroupKey: 'task_channel_group')
+    ],
+    channelGroups: [
+      NotificationChannelGroup(
+        channelGroupKey: "task_channel_group",
+        channelGroupName: "task_group",
+      )
+    ],
+  );
+  bool isAllowedToSendNotification =
+      await AwesomeNotifications().isNotificationAllowed();
+  if (!isAllowedToSendNotification) {
+    AwesomeNotifications().requestPermissionToSendNotifications();
+  }
   runApp(const MyApp());
 }
 

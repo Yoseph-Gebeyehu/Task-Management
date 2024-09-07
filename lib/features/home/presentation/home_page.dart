@@ -3,15 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_management/data/model/task.dart';
 import 'package:task_management/domain/constant/app_images.dart';
 import 'package:task_management/domain/custom_dialog.dart';
-// import 'package:task_management/domain/custom_dialog/add_task_screen.dart'; // Updated import
 import 'package:task_management/features/add-task/presentation/add_task.dart';
 import 'package:task_management/features/drawer/presentation/drawer.dart';
 import 'package:task_management/features/edit-task/presentation/edit_task.dart';
 import 'package:task_management/features/empty-task/presentation/empty_task.dart';
 import 'package:task_management/features/home/bloc/home_bloc.dart';
 import 'package:task_management/features/home/widget/performance_indicator.dart';
-
-import '../../../data/local/sql_flight_database_service.dart';
 
 class HomePage extends StatelessWidget {
   final TextEditingController taskTitleController = TextEditingController();
@@ -228,7 +225,7 @@ class HomePage extends StatelessWidget {
             if (index == 1) {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => AddTaskPage(),
+                  builder: (context) => const AddTaskPage(),
                 ),
               );
             }

@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
 class CustomTextForm extends StatelessWidget {
-  TextEditingController controller = TextEditingController();
-  String hintText;
-  String? Function(String?)? validator;
-  bool? readOnly;
-  Widget? suffix;
+  final TextEditingController
+      controller; // Now final and passed in from outside
+  final String hintText;
+  final String? Function(String?)? validator;
+  final Widget? suffix;
 
-  CustomTextForm({
+  const CustomTextForm({
     super.key,
     required this.hintText,
     required this.controller,
     this.validator,
-    this.readOnly,
     this.suffix,
   });
 
@@ -21,15 +19,11 @@ class CustomTextForm extends StatelessWidget {
   Widget build(BuildContext context) {
     Size deviceSize = MediaQuery.of(context).size;
     return TextFormField(
-      readOnly: readOnly ?? false,
       validator: validator,
       maxLines: null,
       minLines: 1,
-      // expands: true,
-      // minLines: null,
-      // maxLines: null,
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      controller: controller,
+      controller: controller, // Use the controller passed from outside
       cursorColor: Colors.green,
       cursorWidth: 1,
       decoration: InputDecoration(
@@ -42,11 +36,9 @@ class CustomTextForm extends StatelessWidget {
         ),
         focusedBorder: UnderlineInputBorder(
           borderSide: const BorderSide(color: Colors.green),
-          // borderRadius: BorderRadius.circular(10),
         ),
         enabledBorder: UnderlineInputBorder(
           borderSide: const BorderSide(color: Colors.grey),
-          // borderRadius: BorderRadius.circular(10),
         ),
       ),
     );

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:task_management/domain/constant/app_images.dart';
 
 class EmptyTask extends StatelessWidget {
   const EmptyTask({
