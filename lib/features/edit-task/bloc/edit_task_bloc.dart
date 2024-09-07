@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
@@ -14,6 +15,15 @@ class EditTaskBloc extends Bloc<EditTaskEvent, EditTaskState> {
       taskRepository.updateTask(
         oldTask: event.oldTask,
         newTask: event.newTask,
+      );
+
+      AwesomeNotifications().createNotification(
+        content: NotificationContent(
+          id: 1,
+          channelKey: "task_channel",
+          title: event.newTask.title,
+          body: event.newTask.description,
+        ),
       );
     });
   }

@@ -80,7 +80,7 @@ lib/
 │   ├── drawer/              # Navigation drawer
 │
 ├── domain/                  # Domain constants and utilities
-│   ├── constant/            # App constants (themes, images)
+│   ├── constant/            # App constants (images)
 │   ├── custom_dialog.dart   # Custom dialog implementation
 │
 ├── main.dart                # Entry point of the app
