@@ -1,5 +1,5 @@
 class Task {
-  int id;
+  int? id;
   String title;
   String description;
   String startingTime;
@@ -7,7 +7,7 @@ class Task {
   int isCompleted;
 
   Task({
-    required this.id,
+    this.id,
     required this.title,
     required this.description,
     required this.startingTime,

@@ -5,4 +5,7 @@ abstract class HomeEvent {}
 
 class LoadTasks extends HomeEvent {}
 
-class DeleteTask extends HomeEvent {}
+class DeleteTask extends HomeEvent {
+  final Task task;
+  DeleteTask({required this.task});
+}

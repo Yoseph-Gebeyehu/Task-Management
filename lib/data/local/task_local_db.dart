@@ -1,4 +1,5 @@
 import 'package:sqflite/sqflite.dart' as sql;
+import 'package:sqflite/sqflite.dart';
 import 'package:task_management/domain/constant/app_database_tables.dart';
 import 'sql_flight_database_service.dart';
 import 'package:task_management/data/model/task.dart';
@@ -26,9 +27,13 @@ class TaskLocalDB {
     return tasks;
   }
 
-  Future deleteTaskFromDB() async {
-    sql.Database db = await SqlFlightDatabaseService.openDatabase();
-    var result = await db.delete(AppDatabaseTables.task);
-    return result;
+  Future<void> deleteTaskFromDB(Task task) async {
+    Database database = await SqlFlightDatabaseService.openDatabase();
+
+    await database.delete(
+      AppDatabaseTables.task,
+      where: 'id = ?',
+      whereArgs: [task.id],
+    );
   }
 }

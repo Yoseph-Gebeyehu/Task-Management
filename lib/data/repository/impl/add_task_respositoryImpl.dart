@@ -18,7 +18,7 @@ class TaskRepositoryImpl extends TaskRepository {
   }
 
   @override
-  Future deleteTaskFromDB() {
-    return taskLocalDB.deleteTaskFromDB();
+  Future deleteTaskFromDB({required Task task}) {
+    return taskLocalDB.deleteTaskFromDB(task);
   }
 }

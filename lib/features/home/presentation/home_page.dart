@@ -94,7 +94,7 @@ class HomePage extends StatelessWidget {
                                       cancelBtnText: 'Cancle',
                                       onConfirm: () {
                                         BlocProvider.of<HomeBloc>(context).add(
-                                          DeleteTask(),
+                                          DeleteTask(task: tasks[index]),
                                         );
                                         Navigator.pop(context);
                                       },

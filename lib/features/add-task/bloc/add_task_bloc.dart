@@ -13,7 +13,6 @@ class AddTaskBloc extends Bloc<AddTaskEvent, AddTaskState> {
     on<AddTaskSubmitted>((event, emit) async {
       addTaskRepository.addTaskToDatabase(
         task: Task(
-          id: 1,
           title: event.title,
           description: event.description,
           startingTime: event.startingTime,
