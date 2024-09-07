@@ -37,17 +37,21 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<AddTaskBloc>(
             create: (context) => AddTaskBloc(
-              addTaskRepository: RepositoryProvider.of<TaskRepository>(context),
+              taskRepository: RepositoryProvider.of<TaskRepository>(context),
             ),
           ),
           BlocProvider<CompletedTaskBloc>(
-            create: (context) => CompletedTaskBloc(),
+            create: (context) => CompletedTaskBloc(
+              taskRepository: RepositoryProvider.of<TaskRepository>(context),
+            ),
           ),
           BlocProvider<DrawerBloc>(
             create: (context) => DrawerBloc(),
           ),
           BlocProvider<EditTaskBloc>(
-            create: (context) => EditTaskBloc(),
+            create: (context) => EditTaskBloc(
+              taskRepository: RepositoryProvider.of<TaskRepository>(context),
+            ),
           ),
           BlocProvider<SettingBloc>(
             create: (context) => SettingBloc(),

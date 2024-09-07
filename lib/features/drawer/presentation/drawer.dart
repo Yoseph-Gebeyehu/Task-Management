@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:task_management/domain/constant/app_images.dart';
+import 'package:task_management/features/completed-task/presentation/completed_task.dart';
+import 'package:task_management/features/home/presentation/home_page.dart';
 
 class DrawerPage extends StatelessWidget {
   const DrawerPage({super.key});
@@ -32,7 +34,12 @@ class DrawerPage extends StatelessWidget {
             indent: deviceSize.width * 0.05,
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => HomePage()),
+              );
+            },
             child: ListTile(
               leading: Icon(
                 Icons.home,
@@ -46,7 +53,12 @@ class DrawerPage extends StatelessWidget {
             indent: deviceSize.width * 0.05,
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => CompletedTaskPage()),
+              );
+            },
             child: ListTile(
               leading: Icon(
                 Icons.done,

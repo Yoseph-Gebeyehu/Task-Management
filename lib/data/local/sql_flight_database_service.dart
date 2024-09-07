@@ -14,11 +14,11 @@ class SqlFlightDatabaseService {
     final dbpath = await getDatabasePath();
     return await sql.openDatabase(
       dbpath,
-      version: 1,
+      version: 3,
       onCreate: (sql.Database db, int version) async {
         await db.execute('''
           CREATE TABLE ${AppDatabaseTables.task} (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id TEXT,
             title TEXT,
             description TEXT,
             startingTime TEXT,

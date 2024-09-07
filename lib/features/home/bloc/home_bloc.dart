@@ -13,9 +13,18 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       List<Task> taskList = await taskRepository.getTasksFromDataBase();
       emit(HomeLoaded(taskList));
     });
+    on<UpdateTaskStatus>((event, emit) async {
+      await taskRepository.updateTask(
+        oldTask: event.oldTask,
+        newTask: event.newTask,
+      );
+    });
     on<DeleteTask>((event, emit) async {
       await taskRepository.deleteTaskFromDB(task: event.task);
       emit(TaskDeleted());
+    });
+    on<DeleteAllTasks>((event, emit) async {
+      await taskRepository.deleteAllTasks();
     });
   }
 }

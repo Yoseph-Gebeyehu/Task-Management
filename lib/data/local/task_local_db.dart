@@ -49,4 +49,10 @@ class TaskLocalDB {
       whereArgs: [task.id],
     );
   }
+
+  Future<void> deleteAllTasks() async {
+    Database database = await SqlFlightDatabaseService.openDatabase();
+
+    database.delete(AppDatabaseTables.task);
+  }
 }

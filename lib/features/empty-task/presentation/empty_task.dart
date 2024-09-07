@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:task_management/domain/constant/app_images.dart';
 
 class EmptyTask extends StatelessWidget {
-  const EmptyTask({Key? key, required this.deviceSize}) : super(key: key);
+  const EmptyTask({
+    Key? key,
+    required this.deviceSize,
+    required this.imagePath,
+    required this.title,
+  }) : super(key: key);
 
   final Size deviceSize;
+  final String imagePath;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -12,9 +19,12 @@ class EmptyTask extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset(AppImages.emptyTodo),
+        Image.asset(imagePath),
+        SizedBox(
+          height: deviceSize.height * 0.02,
+        ),
         Text(
-          'You didn\'t add task yet! Please add by clicking the \'Add Task\' button below!',
+          title,
           style: TextStyle(fontSize: deviceSize.width * 0.05),
           textAlign: TextAlign.center,
         ),
