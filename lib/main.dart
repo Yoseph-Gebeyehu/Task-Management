@@ -91,6 +91,7 @@ class MyApp extends StatelessWidget {
           ),
         ],
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: 'Task Manager',
           theme: ThemeData(
             primarySwatch: Colors.blue,

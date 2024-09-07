@@ -5,6 +5,7 @@ import 'package:task_management/domain/date_picker.dart';
 import 'package:task_management/domain/text_form.dart';
 import 'package:task_management/domain/validator_service.dart';
 import 'package:task_management/features/add-task/bloc/add_task_bloc.dart';
+import 'package:task_management/features/home/bloc/home_bloc.dart';
 
 import '../../../data/notification.dart';
 
@@ -139,35 +140,41 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     },
                   ),
                   SizedBox(height: deviceSize.height * 0.05),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (formKey.currentState!.validate() &&
-                          startingTimeController.text.isNotEmpty &&
-                          endingTimeController.text.isNotEmpty) {
-                        context.read<AddTaskBloc>().add(
-                              AddTaskSubmitted(
-                                title: taskTitleController.text,
-                                description: taskDescriptionController.text,
-                                startingTime: startingTimeController.text,
-                                endingTime: endingTimeController.text,
-                              ),
-                            );
-                        Navigator.pop(context);
-                      }
+                  BlocListener<HomeBloc, HomeState>(
+                    listener: (context, state) {
+                      // TODO: implement listener
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColor,
-                      elevation: 0,
-                      minimumSize: const Size(double.infinity, 50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (formKey.currentState!.validate() &&
+                            startingTimeController.text.isNotEmpty &&
+                            endingTimeController.text.isNotEmpty) {
+                          context.read<AddTaskBloc>().add(
+                                AddTaskSubmitted(
+                                  title: taskTitleController.text,
+                                  description: taskDescriptionController.text,
+                                  startingTime: startingTimeController.text,
+                                  endingTime: endingTimeController.text,
+                                ),
+                              );
+                          BlocProvider.of<HomeBloc>(context).add(LoadTasks());
+                          Navigator.pop(context);
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).primaryColor,
+                        elevation: 0,
+                        minimumSize: const Size(double.infinity, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
-                    ),
-                    child: Text(
-                      'Add Task',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: deviceSize.width * 0.04,
+                      child: Text(
+                        'Add Task',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: deviceSize.width * 0.04,
+                        ),
                       ),
                     ),
                   ),

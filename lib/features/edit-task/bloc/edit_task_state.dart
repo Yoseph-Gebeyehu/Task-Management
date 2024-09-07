@@ -1,6 +1,14 @@
 part of 'edit_task_bloc.dart';
 
 @immutable
-sealed class EditTaskState {}
+abstract class EditTaskState {}
 
-final class EditTaskInitial extends EditTaskState {}
+class EditTaskInitial extends EditTaskState {}
+
+class TaskUpdated extends EditTaskState {}
+
+class EditTaskError extends EditTaskState {
+  final String message;
+
+  EditTaskError(this.message);
+}

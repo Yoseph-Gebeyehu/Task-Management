@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomTextForm extends StatelessWidget {
-  final TextEditingController
-      controller; // Now final and passed in from outside
+  final TextEditingController controller;
   final String hintText;
   final String? Function(String?)? validator;
   final Widget? suffix;
@@ -20,10 +19,7 @@ class CustomTextForm extends StatelessWidget {
     Size deviceSize = MediaQuery.of(context).size;
     return TextFormField(
       validator: validator,
-      maxLines: null,
-      minLines: 1,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      controller: controller, // Use the controller passed from outside
+      controller: controller, // Ensure the controller is passed correctly
       cursorColor: Colors.green,
       cursorWidth: 1,
       decoration: InputDecoration(

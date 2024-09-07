@@ -43,6 +43,7 @@ class _HomePageState extends State<HomePage> {
                   cancelBtnText: 'Cancel',
                   onConfirm: () {
                     BlocProvider.of<HomeBloc>(context).add(DeleteAllTasks());
+                    BlocProvider.of<HomeBloc>(context).add(LoadTasks());
                     Navigator.pop(context);
                   },
                   onCancel: () {
@@ -232,6 +233,8 @@ class _HomePageState extends State<HomePage> {
                                               BlocProvider.of<HomeBloc>(context)
                                                   .add(DeleteTask(
                                                       task: tasks[index]));
+                                              BlocProvider.of<HomeBloc>(context)
+                                                  .add(LoadTasks());
                                               Navigator.pop(context);
                                             },
                                             onCancel: () {
