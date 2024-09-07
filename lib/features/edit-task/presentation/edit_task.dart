@@ -42,12 +42,10 @@ class _EditTaskPageState extends State<EditTaskPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Update this task'),
-        backgroundColor: Theme.of(context).primaryColor,
+        elevation: 3,
       ),
       body: BlocListener<EditTaskBloc, EditTaskState>(
-        listener: (context, state) {
-          // Handle edit task related states if needed
-        },
+        listener: (context, state) {},
         child: Form(
           key: formKey,
           child: Padding(

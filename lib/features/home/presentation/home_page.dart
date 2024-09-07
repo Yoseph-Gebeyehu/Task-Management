@@ -31,6 +31,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.black),
         title: const Text('Home'),
+        elevation: 3,
         actions: [
           TextButton(
               onPressed: () async {

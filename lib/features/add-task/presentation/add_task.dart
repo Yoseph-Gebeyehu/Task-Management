@@ -46,7 +46,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add New Task'),
-        backgroundColor: Theme.of(context).primaryColor,
+        elevation: 3,
       ),
       body: BlocListener<AddTaskBloc, AddTaskState>(
         listener: (context, state) {

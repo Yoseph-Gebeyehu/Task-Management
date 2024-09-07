@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:task_management/data/model/task.dart';
 import 'package:task_management/domain/constant/app_images.dart';
-import 'package:task_management/domain/custom_dialog.dart';
-// import 'package:task_management/domain/custom_dialog/add_task_screen.dart'; // Updated import
-import 'package:task_management/features/add-task/presentation/add_task.dart';
 import 'package:task_management/features/completed-task/bloc/completed_task_bloc.dart';
 import 'package:task_management/features/drawer/presentation/drawer.dart';
-import 'package:task_management/features/edit-task/presentation/edit_task.dart';
 import 'package:task_management/features/empty-task/presentation/empty_task.dart';
-import 'package:task_management/features/home/bloc/home_bloc.dart';
 
 class CompletedTaskPage extends StatelessWidget {
   @override
@@ -19,6 +13,7 @@ class CompletedTaskPage extends StatelessWidget {
     return Scaffold(
       drawer: const Drawer(child: DrawerPage()),
       appBar: AppBar(
+        elevation: 3,
         iconTheme: const IconThemeData(color: Colors.black),
         title: const Text('Completed tasks'),
       ),
@@ -98,36 +93,6 @@ class CompletedTaskPage extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
         },
-      ),
-      bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-          border: Border(
-            top: BorderSide(color: Colors.grey),
-          ),
-        ),
-        child: BottomNavigationBar(
-          selectedItemColor: Theme.of(context).primaryColor,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.list),
-              label: 'View Tasks',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.add),
-              label: 'Add Task',
-            ),
-          ],
-          currentIndex: 0,
-          onTap: (index) {
-            if (index == 1) {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => AddTaskPage(),
-                ),
-              );
-            }
-          },
-        ),
       ),
     );
   }
