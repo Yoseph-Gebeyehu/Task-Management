@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_management/data/local/task_local_db.dart';
-import 'package:task_management/data/repository/add_task_respository.dart';
-import 'package:task_management/data/repository/impl/add_task_respositoryImpl.dart';
+import 'package:task_management/data/repository/task_respository.dart';
+import 'package:task_management/data/repository/impl/task_respositoryImpl.dart';
 import 'package:task_management/features/add-task/bloc/add_task_bloc.dart';
 import 'package:task_management/features/completed-task/bloc/completed_task_bloc.dart';
 import 'package:task_management/features/drawer/bloc/drawer_bloc.dart';

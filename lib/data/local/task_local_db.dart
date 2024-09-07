@@ -27,6 +27,19 @@ class TaskLocalDB {
     return tasks;
   }
 
+  Future<void> updateTask(Task oldTask, Task newTask) async {
+    Map<String, dynamic> newData = newTask.toJson();
+
+    Database database = await SqlFlightDatabaseService.openDatabase();
+
+    await database.update(
+      AppDatabaseTables.task,
+      newData,
+      where: 'id = ?',
+      whereArgs: [oldTask.id],
+    );
+  }
+
   Future<void> deleteTaskFromDB(Task task) async {
     Database database = await SqlFlightDatabaseService.openDatabase();
 

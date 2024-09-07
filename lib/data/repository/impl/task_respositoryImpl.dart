@@ -2,7 +2,7 @@
 import 'package:task_management/data/local/task_local_db.dart';
 import 'package:task_management/data/model/task.dart';
 
-import '../add_task_respository.dart';
+import '../task_respository.dart';
 
 class TaskRepositoryImpl extends TaskRepository {
   TaskRepositoryImpl({required this.taskLocalDB});
