@@ -128,6 +128,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                   endingTime: endingTimeController.text,
                                 ),
                               );
+                          Navigator.pop(context);
                         }
                         // Handle Add Task logic here
                       },

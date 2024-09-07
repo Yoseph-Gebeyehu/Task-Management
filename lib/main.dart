@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_management/data/local/task_local_db.dart';
 import 'package:task_management/data/repository/add_task_respository.dart';
-import 'package:task_management/data/repository/get_task_repository.dart';
 import 'package:task_management/data/repository/impl/add_task_respositoryImpl.dart';
-import 'package:task_management/data/repository/impl/get_task_repositoryImpl.dart';
 import 'package:task_management/features/add-task/bloc/add_task_bloc.dart';
 import 'package:task_management/features/completed-task/bloc/completed_task_bloc.dart';
 import 'package:task_management/features/drawer/bloc/drawer_bloc.dart';
@@ -24,13 +22,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider<AddTaskRepository>(
-          create: (context) => AddTaskRepositoryImpl(
-            taskLocalDB: TaskLocalDB(),
-          ),
-        ),
-        RepositoryProvider<GetTaskRepository>(
-          create: (context) => GetTaskRepositoryimpl(
+        RepositoryProvider<TaskRepository>(
+          create: (context) => TaskRepositoryImpl(
             taskLocalDB: TaskLocalDB(),
           ),
         ),
@@ -39,14 +32,12 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider<HomeBloc>(
             create: (context) => HomeBloc(
-              getTaskRepository:
-                  RepositoryProvider.of<GetTaskRepository>(context),
+              taskRepository: RepositoryProvider.of<TaskRepository>(context),
             ),
           ),
           BlocProvider<AddTaskBloc>(
             create: (context) => AddTaskBloc(
-              addTaskRepository:
-                  RepositoryProvider.of<AddTaskRepository>(context),
+              addTaskRepository: RepositoryProvider.of<TaskRepository>(context),
             ),
           ),
           BlocProvider<CompletedTaskBloc>(

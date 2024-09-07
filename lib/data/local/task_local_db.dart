@@ -12,7 +12,6 @@ class TaskLocalDB {
       data,
       conflictAlgorithm: sql.ConflictAlgorithm.replace,
     );
-    print('added');
   }
 
   Future<List<Task>> getTasksFromDB() async {
@@ -25,5 +24,11 @@ class TaskLocalDB {
       }
     }
     return tasks;
+  }
+
+  Future deleteTaskFromDB() async {
+    sql.Database db = await SqlFlightDatabaseService.openDatabase();
+    var result = await db.delete(AppDatabaseTables.task);
+    return result;
   }
 }

@@ -4,3 +4,5 @@ part of 'home_bloc.dart';
 abstract class HomeEvent {}
 
 class LoadTasks extends HomeEvent {}
+
+class DeleteTask extends HomeEvent {}

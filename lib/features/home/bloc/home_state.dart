@@ -13,6 +13,8 @@ class HomeLoaded extends HomeState {
   HomeLoaded(this.tasks);
 }
 
+class TaskDeleted extends HomeState {}
+
 class HomeError extends HomeState {
   final String message;
 

@@ -4,11 +4,21 @@ import 'package:task_management/data/model/task.dart';
 
 import '../add_task_respository.dart';
 
-class AddTaskRepositoryImpl extends AddTaskRepository {
-  AddTaskRepositoryImpl({required this.taskLocalDB});
+class TaskRepositoryImpl extends TaskRepository {
+  TaskRepositoryImpl({required this.taskLocalDB});
   final TaskLocalDB taskLocalDB;
   @override
   Future addTaskToDatabase({required Task task}) {
     return taskLocalDB.addTaskToDB(task);
+  }
+
+  @override
+  Future<List<Task>> getTasksFromDataBase() {
+    return taskLocalDB.getTasksFromDB();
+  }
+
+  @override
+  Future deleteTaskFromDB() {
+    return taskLocalDB.deleteTaskFromDB();
   }
 }

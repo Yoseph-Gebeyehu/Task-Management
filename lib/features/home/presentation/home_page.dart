@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task_management/domain/custom_dialog.dart';
 // import 'package:task_management/domain/custom_dialog/add_task_screen.dart'; // Updated import
 import 'package:task_management/features/add-task/presentation/add_task.dart';
+import 'package:task_management/features/empty-task/presentation/empty_task.dart';
 import 'package:task_management/features/home/bloc/home_bloc.dart';
 
 class HomePage extends StatelessWidget {
@@ -24,71 +26,91 @@ class HomePage extends StatelessWidget {
       body: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state) {},
         builder: (context, state) {
-          BlocProvider.of<HomeBloc>(context).add(
-            LoadTasks(),
-          );
+          BlocProvider.of<HomeBloc>(context).add(LoadTasks());
           if (state is HomeLoaded) {
             final tasks = state.tasks;
 
-            return ListView.builder(
-              itemCount: 1,
-              itemBuilder: (context, index) {
-                return Container(
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                      color: const Color.fromARGB(255, 200, 192, 192),
-                    ),
-                  ),
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.check_circle_outline,
-                          color: Color.fromARGB(255, 200, 192, 192),
-                        ),
-                      ),
-                    ),
-                    title: Text(tasks[index].title),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(tasks[index].description),
-                        const SizedBox(height: 10),
-                        Row(
-                          children: [
-                            Text(tasks[index].startingTime),
-                            const Text(' - '),
-                            Text(tasks[index].endingTime),
-                          ],
-                        ),
-                      ],
-                    ),
-                    trailing: SizedBox(
-                      width: deviceSize.width * 0.25,
-                      child: Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.edit, color: Colors.green),
-                            onPressed: () {},
+            return tasks.isEmpty
+                ? EmptyTask(deviceSize: deviceSize)
+                : ListView.builder(
+                    itemCount: tasks.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: const Color.fromARGB(255, 200, 192, 192),
                           ),
-                          const Spacer(),
-                          IconButton(
-                            icon: const Icon(Icons.delete, color: Colors.red),
-                            onPressed: () {},
+                        ),
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            child: IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                Icons.check_circle_outline,
+                                color: Color.fromARGB(255, 200, 192, 192),
+                              ),
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              },
-            );
+                          title: Text(tasks[index].title),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(tasks[index].description),
+                              const SizedBox(height: 10),
+                              Row(
+                                children: [
+                                  Text(tasks[index].startingTime),
+                                  const Text(' - '),
+                                  Text(tasks[index].endingTime),
+                                ],
+                              ),
+                            ],
+                          ),
+                          trailing: SizedBox(
+                            width: deviceSize.width * 0.25,
+                            child: Row(
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.edit,
+                                      color: Colors.green),
+                                  onPressed: () {},
+                                ),
+                                const Spacer(),
+                                IconButton(
+                                  icon: const Icon(Icons.delete,
+                                      color: Colors.red),
+                                  onPressed: () {
+                                    CustomDialog.showConfirmation(
+                                      context: context,
+                                      title: 'Remove Task',
+                                      desc:
+                                          "Are you sure to delete the task permanently?",
+                                      confirmText: 'Delete',
+                                      cancelBtnText: 'Cancle',
+                                      onConfirm: () {
+                                        BlocProvider.of<HomeBloc>(context).add(
+                                          DeleteTask(),
+                                        );
+                                        Navigator.pop(context);
+                                      },
+                                      onCancel: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
           } else {
             return const Center(child: CircularProgressIndicator());
           }

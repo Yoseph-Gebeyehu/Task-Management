@@ -8,7 +8,7 @@ part 'add_task_state.dart';
 
 class AddTaskBloc extends Bloc<AddTaskEvent, AddTaskState> {
   AddTaskBloc({
-    required AddTaskRepository addTaskRepository,
+    required TaskRepository addTaskRepository,
   }) : super(AddTaskInitial()) {
     on<AddTaskSubmitted>((event, emit) async {
       addTaskRepository.addTaskToDatabase(
