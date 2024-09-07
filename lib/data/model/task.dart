@@ -1,16 +1,18 @@
 class Task {
-  String id;
+  int id;
   String title;
   String description;
-  DateTime dueDate;
-  bool isCompleted;
+  String startingTime;
+  String endingTime;
+  int isCompleted;
 
   Task({
     required this.id,
     required this.title,
     required this.description,
-    required this.dueDate,
-    this.isCompleted = false,
+    required this.startingTime,
+    required this.endingTime,
+    this.isCompleted = 0,
   });
 
   factory Task.fromJson(Map<String, dynamic> json) {
@@ -18,7 +20,8 @@ class Task {
       id: json['id'],
       title: json['title'],
       description: json['description'],
-      dueDate: DateTime.parse(json['dueDate']),
+      startingTime: json['startingTime'],
+      endingTime: json['endingTime'],
       isCompleted: json['isCompleted'] ?? false,
     );
   }
@@ -28,7 +31,8 @@ class Task {
       'id': id,
       'title': title,
       'description': description,
-      'dueDate': dueDate.toIso8601String(),
+      'startingTime': startingTime,
+      'endingTime': endingTime,
       'isCompleted': isCompleted,
     };
   }
