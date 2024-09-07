@@ -10,12 +10,17 @@ import 'package:task_management/features/empty-task/presentation/empty_task.dart
 import 'package:task_management/features/home/bloc/home_bloc.dart';
 import 'package:task_management/features/home/widget/performance_indicator.dart';
 
-class HomePage extends StatelessWidget {
-  final TextEditingController taskTitleController = TextEditingController();
-  final TextEditingController taskDescriptionController =
-      TextEditingController();
-  final TextEditingController startingTimeController = TextEditingController();
-  final TextEditingController endingTimeController = TextEditingController();
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<HomeBloc>(context).add(LoadTasks());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,13 +37,11 @@ class HomePage extends StatelessWidget {
                 CustomDialog.showConfirmation(
                   context: context,
                   title: 'Delete All',
-                  desc: "Are you sure to delete of the tasks permanently?",
+                  desc: "Are you sure to delete all the tasks permanently?",
                   confirmText: 'Delete',
-                  cancelBtnText: 'Cancle',
+                  cancelBtnText: 'Cancel',
                   onConfirm: () {
-                    BlocProvider.of<HomeBloc>(context).add(
-                      DeleteAllTasks(),
-                    );
+                    BlocProvider.of<HomeBloc>(context).add(DeleteAllTasks());
                     Navigator.pop(context);
                   },
                   onCancel: () {
@@ -48,31 +51,81 @@ class HomePage extends StatelessWidget {
               },
               child: const Text(
                 'Delete all',
-                style: TextStyle(
-                  color: Colors.red,
-                ),
+                style: TextStyle(color: Colors.red),
               ))
         ],
       ),
       body: BlocConsumer<HomeBloc, HomeState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is HomeError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        },
         builder: (context, state) {
-          BlocProvider.of<HomeBloc>(context).add(LoadTasks());
           if (state is HomeLoaded) {
             final completedTasks =
                 state.tasks.where((task) => task.isCompleted == 1);
             final tasks = state.tasks;
-            var performance = completedTasks.length * 100 / tasks.length;
+            double performance = tasks.isEmpty
+                ? 0
+                : (completedTasks.length * 100 / tasks.length);
 
             return tasks.isEmpty
                 ? EmptyTask(
                     deviceSize: deviceSize,
                     imagePath: AppImages.emptyTodo,
                     title:
-                        'You didn\'t add task yet! Please add by clicking the \'Add Task\' button below!',
+                        'You didn\'t add any tasks yet! Please add by clicking the \'Add Task\' button below!',
                   )
                 : Column(
                     children: [
+                      // Display quote if available
+                      state.quote != null
+                          ? Container(
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 15),
+                              padding: const EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: Colors.blueGrey[50],
+                                borderRadius: BorderRadius.circular(15),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: const Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    '"${state.quote.content}"',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blueGrey[800],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    '- ${state.quote.author}',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.blueGrey[600],
+                                    ),
+                                    textAlign: TextAlign.end,
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Container(),
                       Expanded(
                         child: ListView.builder(
                           itemCount: tasks.length,
@@ -117,6 +170,8 @@ class HomePage extends StatelessWidget {
                                           ),
                                         ),
                                       );
+                                      BlocProvider.of<HomeBloc>(context)
+                                          .add(LoadTasks());
                                     },
                                     icon: Icon(
                                       Icons.check_circle_outline,
@@ -151,11 +206,13 @@ class HomePage extends StatelessWidget {
                                             color: Colors.green),
                                         onPressed: () {
                                           Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      EditTaskPage(
-                                                          task: tasks[index])));
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EditTaskPage(
+                                                      task: tasks[index]),
+                                            ),
+                                          );
                                         },
                                       ),
                                       const Spacer(),
@@ -169,12 +226,11 @@ class HomePage extends StatelessWidget {
                                             desc:
                                                 "Are you sure to delete the task permanently?",
                                             confirmText: 'Delete',
-                                            cancelBtnText: 'Cancle',
+                                            cancelBtnText: 'Cancel',
                                             onConfirm: () {
                                               BlocProvider.of<HomeBloc>(context)
-                                                  .add(
-                                                DeleteTask(task: tasks[index]),
-                                              );
+                                                  .add(DeleteTask(
+                                                      task: tasks[index]));
                                               Navigator.pop(context);
                                             },
                                             onCancel: () {
@@ -194,9 +250,16 @@ class HomePage extends StatelessWidget {
                       PerformanceIndicator(
                         deviceSize: deviceSize,
                         performance: performance,
-                      )
+                      ),
                     ],
                   );
+          } else if (state is HomeError) {
+            return Center(
+              child: Text(
+                state.message,
+                style: TextStyle(color: Colors.red, fontSize: 16),
+              ),
+            );
           } else {
             return const Center(child: CircularProgressIndicator());
           }

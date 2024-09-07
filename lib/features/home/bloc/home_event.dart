@@ -18,3 +18,5 @@ class UpdateTaskStatus extends HomeEvent {
 
   UpdateTaskStatus({required this.oldTask, required this.newTask});
 }
+
+class FetchQuote extends HomeEvent {}

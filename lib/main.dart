@@ -2,6 +2,9 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_management/data/local/task_local_db.dart';
+import 'package:task_management/data/remote/api.dart';
+import 'package:task_management/data/repository/impl/quotes_repositoryImpl.dart';
+import 'package:task_management/data/repository/quotes_repository.dart';
 import 'package:task_management/data/repository/task_respository.dart';
 import 'package:task_management/data/repository/impl/task_respositoryImpl.dart';
 import 'package:task_management/features/add-task/bloc/add_task_bloc.dart';
@@ -51,12 +54,18 @@ class MyApp extends StatelessWidget {
             taskLocalDB: TaskLocalDB(),
           ),
         ),
+        RepositoryProvider<QuotesRepository>(
+          create: (context) => QuotesRepositoryimpl(
+            api: Api(),
+          ),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider<HomeBloc>(
             create: (context) => HomeBloc(
               taskRepository: RepositoryProvider.of<TaskRepository>(context),
+              quoteRepository: RepositoryProvider.of<QuotesRepository>(context),
             ),
           ),
           BlocProvider<AddTaskBloc>(
